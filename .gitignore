@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+.vite
+*.local
+.DS_Store
+
+# Secrets: never commit real env files. .env.example is the documented shape.
+.env
+.env.*
+!.env.example
+
+# Claude Code local, per-developer settings (sandbox mode picks, local allows)
+.claude/settings.local.json

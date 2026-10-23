@@ -1,0 +1,22 @@
+# pnpm settings live here (pnpm 10.6+ reads this file; pnpm 11 requires it).
+
+# Build scripts are opt-in. Every entry below is a package you have authorised
+# to execute code on your machine at install time — keep the list short.
+allowBuilds:
+  esbuild: true
+
+# Supply-chain cooldown: a newly published version is not resolved until it is
+# this many minutes old. 1440 (one day) is pnpm 11's default and blocks the
+# realistic attack window — the Shai-Hulud worm was caught in ~12 hours.
+# 10080 (one week) is safer but will regularly block current releases of
+# fast-moving tools like oxfmt and oxlint; raise it only if you are ready to
+# manage exclusions.
+#
+# Strict mode fails the install rather than quietly resolving to an older
+# version that happens to be old enough.
+minimumReleaseAge: 1440
+minimumReleaseAgeStrict: true
+# Bypass the cooldown for a specific package when you need an urgent security
+# patch, then delete the exception:
+# minimumReleaseAgeExclude:
+#   - "some-package"

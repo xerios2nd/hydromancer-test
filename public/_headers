@@ -1,0 +1,15 @@
+# Netlify / Cloudflare Pages syntax. Translate to your host's config if you
+# deploy elsewhere; the header set is what matters, not the file format.
+#
+# The CSP below has no 'unsafe-inline' for scripts. Svelte's compiled output
+# does not need it. The style-src allowance covers the stylesheet Vite injects;
+# tighten it to a hash if your host can generate one.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
