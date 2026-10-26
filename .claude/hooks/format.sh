@@ -18,12 +18,15 @@ file=$(node -e '
 [ -n "$file" ] || exit 0
 [ -f "$file" ] || exit 0
 
+# Call the local binaries directly: `pnpm exec` adds ~250ms of startup per call.
+bin="${CLAUDE_PROJECT_DIR:-.}/node_modules/.bin"
+
 case "$file" in
   *.js | *.mjs | *.cjs | *.ts | *.mts | *.cts)
-    pnpm exec oxlint --fix --no-error-on-unmatched-pattern "$file" >/dev/null 2>&1
+    "$bin/oxlint" --fix --no-error-on-unmatched-pattern "$file" >/dev/null 2>&1
     ;;
 esac
 
-pnpm exec oxfmt --no-error-on-unmatched-pattern "$file" >/dev/null 2>&1
+"$bin/oxfmt" --no-error-on-unmatched-pattern "$file" >/dev/null 2>&1
 
 exit 0
