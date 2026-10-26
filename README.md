@@ -1,4 +1,4 @@
-# template-svelte-oxc
+# hydromancer-test
 
 Svelte 5 + TypeScript + Vite + Vitest, linted with Oxlint, formatted with Oxfmt, packaged with pnpm, and set up for Claude Code with the Bash sandbox enabled.
 
