@@ -66,7 +66,7 @@ The pieces below are the ones that are not obvious from the file tree.
 
 **Claude Code.** The sandbox contains what a command can reach; it does nothing about prompt injection. Two things follow. Hooks run _outside_ the sandbox, so `.claude/hooks/format.sh` executes with your full privileges on every edit — it deserves review like a CI script. And `env.CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` strips Anthropic and cloud credentials from all subprocesses, sandboxed or not, which is broader than the `credentials.envVars` denies. Resist widening `allowedDomains` the first time something fails: the proxy allows by client-supplied hostname without inspecting TLS, so a broad entry is an exfiltration path. An MCP server is remote code with tool access — treat `.mcp.json` as a dependency manifest.
 
-**Deploy.** `public/_headers` carries a CSP with no `unsafe-inline` for scripts, plus HSTS, `nosniff`, `Referrer-Policy`, and `Permissions-Policy`. The syntax is Netlify/Cloudflare Pages; translate it if you host elsewhere. Keep auth tokens in httpOnly SameSite cookies, not `localStorage`. And don't run `vite dev --host` on an untrusted network — the dev server has a history of path-traversal issues, so keep Vite patched even as a dev dependency.
+**Deploy.** `packages/chart/public/_headers` carries a CSP with no `unsafe-inline` for scripts, plus HSTS, `nosniff`, `Referrer-Policy`, and `Permissions-Policy`. The syntax is Netlify/Cloudflare Pages; translate it if you host elsewhere. Keep auth tokens in httpOnly SameSite cookies, not `localStorage`. And don't run `vite dev --host` on an untrusted network — the dev server has a history of path-traversal issues, so keep Vite patched even as a dev dependency.
 
 ## Notes
 

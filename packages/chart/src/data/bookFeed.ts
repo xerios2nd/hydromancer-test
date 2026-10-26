@@ -1,4 +1,4 @@
-import type { Hydromancer, L2BookStreamOptions } from '@local/hydromancer'
+import type { HydromancerClient, L2BookStreamOptions } from '@local/hydromancer'
 
 import type { HeatmapSource } from './heatmap'
 import { heatmapCacheKey, persistHeatmap } from './heatmapCache'
@@ -27,7 +27,7 @@ export interface BookFeed {
  * in `hm.cache` to survive reloads. Columns stay empty while disconnected.
  */
 export function createBookFeed(
-  hm: Hydromancer,
+  hm: HydromancerClient,
   { coin, heatmap, columnMs, nSigFigs = 5, nLevels = 50, maxColumns, publishMs = 250 }: BookFeedOptions,
 ): BookFeed {
   let builder: LevelHeatmap | undefined

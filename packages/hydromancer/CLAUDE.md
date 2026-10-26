@@ -4,12 +4,12 @@ Framework-free client for the [Hydromancer API](https://docs.hydromancer.xyz/llm
 
 ## Layering
 
-Layers only depend downward: streams → rest/ws/cache → codec/parse → util/errors. `vite.ts` runs Node-side and must not use relative imports (see its file header).
+Layers only depend downward: worker → hydromancer → streams → rest/ws/cache → codec/parse → util/errors.
 
 ## API facts the code depends on
 
 - **Endpoints:** REST is `POST <base>/info` with `Authorization: Bearer <key>`. The WebSocket is `<base>/ws?token=<key>`, and data starts only after the server's `connected` frame. Base URLs: `https://api.hydromancer.xyz`, `https://api-testnet.hydromancer.xyz`.
-- **Browsers:** the key must never reach a browser (`token` would be public). The app uses the Vite proxy in `vite.ts`, and the client gets `baseUrl`/`restUrl`/`wsUrl` set to same-origin paths without `apiKey`.
+- **Browsers:** the app is client-side only. The browser calls the API directly with a key the user supplies (`token` is visible to the page, so never ship one). `Hydromancer` runs in a Web Worker via `serveHydromancer` (`worker/host.ts`); the page uses `HydromancerWorker` (`worker/client.ts`), which mirrors the stream API over `postMessage`.
 - **Pings:** the server pings every 60s and expects `{"type":"pong"}`.
 - **`seq`:** per subscription, starts at 1 and resets on every connection. A jump means messages were lost.
 - **Rate limits:**
@@ -37,6 +37,7 @@ Layers only depend downward: streams → rest/ws/cache → codec/parse → util/
   - Only immutable data is cached: candle chunks that ended more than `finalityGraceMs` ago, and position snapshots keyed by snapshot id.
   - Cache keys carry a version (`hydromancer:candles:v1:…`). Bump it when the stored shape changes.
 - **Positions are column-oriented** (typed arrays per field) because markets can hold 100k+ positions.
+- **Worker bridge.** Only data crosses `postMessage`: callbacks stay on the page, errors are rebuilt as their original class (`serializeError`/`deserializeError`), and the TP/SL mirror is sent as coalesced add/remove diffs. Relative URLs are resolved on the page, since an inlined worker's base is a `blob:` URL.
 
 ## Conventions
 

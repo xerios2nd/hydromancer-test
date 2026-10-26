@@ -1,0 +1,22 @@
+# Netlify / Cloudflare Pages syntax. Translate to your host's config if you
+# deploy elsewhere; the header set is what matters, not the file format.
+#
+# The CSP below has no 'unsafe-inline' for scripts. Svelte's compiled output
+# does not need it. The style-src allowance covers the stylesheet Vite injects;
+# tighten it to a hash if your host can generate one. The chart's worker
+# (worker-src) opens the Hydromancer WebSocket directly (connect-src) and calls
+# REST through the same-origin relay at /hydromancer/<network>/info.
+#
+# The chart is embedded by customers as an iframe with the API key in the query
+# string. frame-ancestors allows any HTTPS site to frame it; narrow it to the
+# customers' origins if you can. no-referrer keeps the page URL, and so the key,
+# out of the Referer header of every request the page makes.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' wss://api.hydromancer.xyz wss://api-testnet.hydromancer.xyz; worker-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors https:; form-action 'self'
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin

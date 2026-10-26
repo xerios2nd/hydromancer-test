@@ -1,4 +1,4 @@
-import type { Hydromancer, Interval } from '@local/hydromancer'
+import type { HydromancerClient, Interval } from '@local/hydromancer'
 
 import type { CandleSeries } from './candles'
 
@@ -20,7 +20,7 @@ export interface CandleFeed {
  * Keeps `series` in sync with Hydromancer's candle stream. The stream does the
  * reconnect backfill. The series does the order-independent merge.
  */
-export function createCandleFeed(hm: Hydromancer, { coin, interval, series, history }: CandleFeedOptions): CandleFeed {
+export function createCandleFeed(hm: HydromancerClient, { coin, interval, series, history }: CandleFeedOptions): CandleFeed {
   let error = $state<string>()
 
   const stream = hm.streamCandles({

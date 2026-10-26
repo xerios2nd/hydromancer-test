@@ -1,4 +1,4 @@
-import type { Hydromancer, TpslOrder } from '@local/hydromancer'
+import type { HydromancerClient, TpslOrder } from '@local/hydromancer'
 
 import type { HeatmapSource } from './heatmap'
 import { heatmapCacheKey } from './heatmapCache'
@@ -22,7 +22,7 @@ export interface TpslFeed {
  * take-profits and one for stop-losses. The value is the notional at each
  * trigger price.
  */
-export function createTpslFeed(hm: Hydromancer, { coin, sources, columnMs, referencePrice }: TpslFeedOptions): TpslFeed {
+export function createTpslFeed(hm: HydromancerClient, { coin, sources, columnMs, referencePrice }: TpslFeedOptions): TpslFeed {
   let error = $state<string>()
 
   const mirror = hm.mirrorTpsl({ coin, onError: (err) => (error = err?.message) })

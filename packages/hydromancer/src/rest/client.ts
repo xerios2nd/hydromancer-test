@@ -42,15 +42,13 @@ export interface RetryOptions {
 export interface RestClientOptions {
   /**
    * API origin or proxy prefix; requests go to `<baseUrl>/info`. Defaults to
-   * {@link DEFAULT_BASE_URL}. In a browser, use a same-origin proxy that adds
-   * the key (see `./vite`).
+   * {@link DEFAULT_BASE_URL}.
    */
   baseUrl?: string
   /** Full `POST /info` URL, if it isn't `<baseUrl>/info`. Overrides `baseUrl`. */
   url?: string
   /**
-   * Sent as `Authorization: Bearer <key>`. Leave unset when a proxy adds it;
-   * anything shipped to a browser is public.
+   * Sent as `Authorization: Bearer <key>`. Leave unset when a proxy adds it.
    */
   apiKey?: string
   fetch?: typeof fetch

@@ -31,8 +31,7 @@ export interface SubscriptionHandler {
 export interface ConnectionOptions {
   /**
    * API origin or proxy prefix; connects to `<baseUrl>/ws`, with `http(s)`
-   * turned into `ws(s)`. In a browser, use a same-origin proxy that adds the
-   * key (see `./vite`).
+   * turned into `ws(s)`.
    */
   baseUrl?: string
   /** Full WebSocket URL, if it isn't `<baseUrl>/ws`. Overrides `baseUrl`. Defaults to {@link DEFAULT_WS_URL}. */

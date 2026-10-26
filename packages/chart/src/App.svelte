@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Hydromancer, INTERVAL_MS } from '@local/hydromancer'
-  import type { ConnectionStatus, FixedInterval, HydromancerOptions } from '@local/hydromancer'
+  import { HydromancerWorker, INTERVAL_MS } from '@local/hydromancer'
+  import type { ConnectionStatus, FixedInterval, HydromancerWorkerOptions } from '@local/hydromancer'
   import { untrack } from 'svelte'
 
   import Chart from './chart/Chart.svelte'
@@ -17,12 +17,12 @@
   interface Props {
     coin: string
     interval: FixedInterval
-    /** Where and how to connect: `apiKey`, `network`, `baseUrl`. */
-    connection: Pick<HydromancerOptions, 'apiKey' | 'network' | 'baseUrl'>
+    /** Where and how to connect: `apiKey`, `network`, `baseUrl`, `restUrl`. */
+    connection: Pick<HydromancerWorkerOptions, 'apiKey' | 'network' | 'baseUrl' | 'restUrl'>
   }
 
   const props: Props = $props()
-  // <hm-chart> remounts on attribute changes, so the initial values are all this needs.
+  // Set once from the query string (main.ts), so the initial values are all this needs.
   const { coin, interval, connection } = untrack(() => props)
   const intervalMs = INTERVAL_MS[interval]
   // Four heatmap columns per candle.
@@ -39,36 +39,49 @@
     large: new HeatmapSource(),
   }
 
-  let status = $state<ConnectionStatus>('connecting')
+  // Without a key the API answers 401 to everything, so don't start at all. A `baseUrl` may be a proxy that adds it.
+  const missingKey = !connection.apiKey && !connection.baseUrl
+
+  let status = $state<ConnectionStatus>(missingKey ? 'idle' : 'connecting')
   let wsError = $state<string>()
 
-  const hm = new Hydromancer({
-    ...connection,
-    now,
-    validateApiKey: true,
-    rest: {
-      onResponse: (res, { sentAt, receivedAt }) => syncClockFromDateHeader(res.headers.get('Date'), sentAt, receivedAt),
-    },
-    onStatus: (s) => {
-      status = s
-      // Connection errors (drops, rate limits) are stale once it's back.
-      if (s === 'open') wsError = undefined
-    },
-    onError: (err) => (wsError = err.message),
-  })
-  const candles = createCandleFeed(hm, { coin, interval, series })
-  const book = createBookFeed(hm, { coin, heatmap: sources.book, columnMs })
-  const tpsl = createTpslFeed(hm, { coin, sources, columnMs, referencePrice })
-  const liquidations = createLiquidationFeed(hm, { coin, sources, columnMs, referencePrice })
-  hm.connect()
+  function start() {
+    // The client (WebSocket, REST, decoding, cache) lives in the worker; the feeds get a mirror of its streams.
+    const worker = new Worker(new URL('./hydromancer.worker.ts', import.meta.url), { type: 'module' })
+    const hm = new HydromancerWorker({
+      ...connection,
+      worker,
+      now,
+      validateApiKey: true,
+      onResponse: (date, { sentAt, receivedAt }) => syncClockFromDateHeader(date, sentAt, receivedAt),
+      onStatus: (s) => {
+        status = s
+        // Connection errors (drops, rate limits) are stale once it's back.
+        if (s === 'open') wsError = undefined
+      },
+      onError: (err) => (wsError = err.message),
+    })
+    const candles = createCandleFeed(hm, { coin, interval, series })
+    const book = createBookFeed(hm, { coin, heatmap: sources.book, columnMs })
+    const tpsl = createTpslFeed(hm, { coin, sources, columnMs, referencePrice })
+    const liquidations = createLiquidationFeed(hm, { coin, sources, columnMs, referencePrice })
+    hm.connect()
 
-  $effect(() => () => {
-    candles.destroy()
-    book.destroy()
-    tpsl.destroy()
-    liquidations.destroy()
-    hm.close()
-  })
+    return {
+      errors: () => [candles.error, tpsl.error, liquidations.error],
+      destroy() {
+        candles.destroy()
+        book.destroy()
+        tpsl.destroy()
+        liquidations.destroy()
+        hm.close()
+        worker.terminate()
+      },
+    }
+  }
+
+  const session = missingKey ? undefined : start()
+  $effect(() => () => session?.destroy())
 
   interface Group {
     id: string
@@ -108,7 +121,9 @@
 
   let shown = $state<Record<string, boolean>>({ book: true, tpsl: true, liq: true })
   const hidden = $derived(groups.filter((g) => !shown[g.id]).flatMap((g) => g.items.map((i) => i.id)))
-  const errors = $derived([wsError, candles.error, tpsl.error, liquidations.error].filter((e) => e !== undefined))
+  const errors = $derived(
+    [missingKey ? 'No API key: set the api-key attribute or the apiKey property' : wsError, ...(session?.errors() ?? [])].filter((e) => e !== undefined),
+  )
 </script>
 
 <main>

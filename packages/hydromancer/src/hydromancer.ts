@@ -32,8 +32,9 @@ export const BASE_URLS = {
 export interface HydromancerOptions {
   /**
    * API key, sent as a Bearer header (REST) and `token` parameter (WebSocket).
-   * Only for server-side use: in a browser it's public. Point `baseUrl` at a
-   * proxy that adds it instead (see `@local/hydromancer/vite`).
+   * In a browser it's visible to the page's user and scripts, so let users
+   * bring their own key rather than shipping one. Leave unset when `baseUrl`
+   * is a proxy that adds it.
    */
   apiKey?: string
   /** Picks the base URL from {@link BASE_URLS}. Default `mainnet`. */

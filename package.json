@@ -4,10 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm build:chart && vite",
-    "build": "pnpm build:chart && vite build",
-    "build:chart": "pnpm --filter @local/chart build",
-    "preview": "vite preview",
+    "dev": "pnpm --filter @local/chart dev",
+    "build": "pnpm --filter @local/chart build",
+    "preview": "pnpm --filter @local/chart preview",
     "check": "pnpm check:types && pnpm check:lint && pnpm check:tests",
     "check:types": "tsc -p tsconfig.json && pnpm --filter @local/chart check:types",
     "check:lint": "oxlint --deny-warnings",

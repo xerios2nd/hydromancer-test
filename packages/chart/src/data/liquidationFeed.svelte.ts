@@ -1,4 +1,4 @@
-import type { Hydromancer, PerpPositions } from '@local/hydromancer'
+import type { HydromancerClient, PerpPositions } from '@local/hydromancer'
 
 import type { HeatmapSource } from './heatmap'
 import { heatmapCacheKey } from './heatmapCache'
@@ -38,7 +38,7 @@ const tierOf = (notional: number): LiquidationTier => {
  * Liquidation map from Hydromancer's position snapshots. Each position's
  * notional is summed at its liquidation price, with one heatmap per size tier.
  */
-export function createLiquidationFeed(hm: Hydromancer, { coin, sources, columnMs, referencePrice, pollMs }: LiquidationFeedOptions): LiquidationFeed {
+export function createLiquidationFeed(hm: HydromancerClient, { coin, sources, columnMs, referencePrice, pollMs }: LiquidationFeedOptions): LiquidationFeed {
   let error = $state<string>()
   let positions: PerpPositions | undefined
 

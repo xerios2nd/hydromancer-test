@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hm-chart example</title>
+    <title>Hydromancer chart</title>
     <style>
       :root {
         color-scheme: dark;
@@ -14,22 +14,18 @@
         margin: 0;
       }
 
-      hm-chart {
+      #app {
+        position: relative;
         /* dvh tracks the visible viewport as mobile browser bars show and hide. */
         height: 100vh;
         height: 100dvh;
+        user-select: none;
       }
     </style>
   </head>
   <body>
-    <!--
-      Embedding: load the module once, then use the element anywhere.
-      base-url points at the dev/preview proxy in vite.config.ts, which adds HYDROMANCER_API_KEY
-      server-side, so the key never reaches the page.
-    -->
-    <hm-chart coin="BTC" interval="1m" base-url="/hydromancer"></hm-chart>
-    <script type="module">
-      import '@local/chart'
-    </script>
+    <!-- Configured through the query string; see src/main.ts. -->
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
