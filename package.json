@@ -4,30 +4,33 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "pnpm build:chart && vite",
+    "build": "pnpm build:chart && vite build",
+    "build:chart": "pnpm --filter @local/chart build",
     "preview": "vite preview",
     "check": "pnpm check:types && pnpm check:lint && pnpm check:tests",
-    "check:types": "svelte-check --tsconfig ./tsconfig.json",
+    "check:types": "tsc -p tsconfig.json && pnpm --filter @local/chart check:types",
     "check:lint": "oxlint --deny-warnings",
     "check:tests": "vitest run",
     "check:fmt": "oxfmt --check",
     "test": "vitest",
+    "test:live": "HYDROMANCER_LIVE=1 vitest run packages/hydromancer/src/live.test.ts",
     "lint": "oxlint --fix",
     "fmt": "oxfmt"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "@types/node": "^22.20.3",
     "oxfmt": "^0.65.0",
     "oxlint": "^1.83.0",
-    "svelte": "^5.57.0",
-    "svelte-check": "^4.7.6",
     "typescript": "^7.0.2",
     "vite": "^8.3.0",
     "vitest": "^5.0.1"
   },
   "engines": {
     "node": ">=22"
+  },
+  "dependencies": {
+    "@local/chart": "workspace:*",
+    "@local/hydromancer": "workspace:*"
   }
 }

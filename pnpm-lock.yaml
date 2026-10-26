@@ -7,10 +7,14 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@local/chart':
+        specifier: workspace:*
+        version: link:packages/chart
+      '@local/hydromancer':
+        specifier: workspace:*
+        version: link:packages/hydromancer
     devDependencies:
-      '@sveltejs/vite-plugin-svelte':
-        specifier: ^7.3.0
-        version: 7.3.0(svelte@5.57.0)(vite@8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(yaml@2.9.0))
       '@types/node':
         specifier: ^22.20.3
         version: 22.20.3
@@ -20,6 +24,33 @@ importers:
       oxlint:
         specifier: ^1.83.0
         version: 1.83.0
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vite:
+        specifier: ^8.3.0
+        version: 8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(yaml@2.9.0)
+      vitest:
+        specifier: ^5.0.1
+        version: 5.0.1(@types/node@22.20.3)(vite@8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(yaml@2.9.0))
+
+  packages/chart:
+    devDependencies:
+      '@local/hydromancer':
+        specifier: workspace:*
+        version: link:../hydromancer
+      '@sveltejs/vite-plugin-svelte':
+        specifier: ^7.3.0
+        version: 7.3.0(svelte@5.57.0)(vite@8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(yaml@2.9.0))
+      '@thi.ng/fibers':
+        specifier: ^1.1.2
+        version: 1.1.2
+      '@thi.ng/math':
+        specifier: ^5.15.17
+        version: 5.15.17
+      '@thi.ng/transducers':
+        specifier: ^9.7.0
+        version: 9.7.0
       svelte:
         specifier: ^5.57.0
         version: 5.57.0
@@ -32,9 +63,19 @@ importers:
       vite:
         specifier: ^8.3.0
         version: 8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(yaml@2.9.0)
-      vitest:
-        specifier: ^5.0.1
-        version: 5.0.1(@types/node@22.20.3)(vite@8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(yaml@2.9.0))
+
+  packages/hydromancer:
+    dependencies:
+      '@msgpack/msgpack':
+        specifier: ^3.1.3
+        version: 3.1.3
+      fzstd:
+        specifier: ^0.1.1
+        version: 0.1.1
+    devDependencies:
+      vite:
+        specifier: ^8.3.0
+        version: 8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(yaml@2.9.0)
 
 packages:
 
@@ -209,6 +250,10 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@msgpack/msgpack@3.1.3':
+    resolution: {integrity: sha512-47XIizs9XZXvuJgoaJUIE2lFoID8ugvc0jzSHP+Ptfk8nTbnR8g788wv48N03Kx0UkAv559HWRQ3yzOgzlRNUA==}
+    engines: {node: '>= 18'}
 
   '@oxc-project/types@0.150.0':
     resolution: {integrity: sha512-rDS5/31E9HfPl/CIzGrn0DOlvBbXFseQ5URJ9sYMfstbKLD/c6Gm9vmRzRGDdAXyOIL4zmO37lc9RIwYqVruZw==}
@@ -572,6 +617,66 @@ packages:
       svelte: ^5.46.4
       vite: ^8.0.0-beta.7 || ^8.0.0
 
+  '@thi.ng/api@8.12.28':
+    resolution: {integrity: sha512-SbC2c2fULIXtAsgtT9Vz7Dviv1KaZD3oYrvqy3zV405xHuipaFMZN1VbVr6LzN8JCdIFp0oH4b6OdNHdojdzcA==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/arrays@2.14.26':
+    resolution: {integrity: sha512-sIzVJyXZRQC8KQQpRn7KZZlanRej2Q+bvmFsq9GhAh5kuzfCjaCGuXibTtJS2X5uEMfXvH2D6mi0auIBbZ+V9Q==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/buffers@1.0.47':
+    resolution: {integrity: sha512-+KLmhhRchavw0ZLtHaS/SP/X6RYaa+hQEF2ClcXyXFFfNVOXmq35NGtOeQ1tV1gGeqn2m40A0lzReg5Y9NVsUw==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/checks@3.11.1':
+    resolution: {integrity: sha512-S64V2nAPA0Y66VwpJdi3fdwv4xP9G7M13nvQWzp6YTERsnusI6FtihbxhENt/DQ/k+iP+aVSsy+LgtqwkFvvag==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/compare@2.5.16':
+    resolution: {integrity: sha512-NSqurH5cqjHjcyKANPoKofDEbfQRNkL2Ct+3W5o1QdY6y/iSDysccOVdwA4oc5A49+bMwmOIUhnTyiiRIlYkWQ==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/compose@3.0.65':
+    resolution: {integrity: sha512-XIBDrwYv/wlNq7N1aqj0xxZKUihuoxRtENFivtbZ20OEHQNNDaF6m58OxShb8ZK3NA0L+7qiVQzdik4tPw7ZDg==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/equiv@2.1.117':
+    resolution: {integrity: sha512-HNZvfMsTMPMEh9TisOgasMVStG5kgEfLfKww+Am2RrOb2B1fQ6ZKJYRJCf+bMF8SOboaz74V9KewIDcMKTR8Qw==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/errors@2.6.17':
+    resolution: {integrity: sha512-momw7wo3EXes1wa6Smckr+l4BaJi/h+E67R3furYOBjQpciie1OgoTa43PXPb1POsuWxynkEF8OCnQgreE8twg==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/fibers@1.1.2':
+    resolution: {integrity: sha512-wL777FQ0cOM2q7dYtetAkqDVSfMxnAW30ez2gK/Xx9CSW5qErqwQsuiB7TkJFi1ef2HWoYvG3Hxcn+rTfCPWoA==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/idgen@2.2.102':
+    resolution: {integrity: sha512-k6ArAgqM5zJK0aXC2tNeZfmvmM/rB9DPF/G8vkz20QT8AczRywsHS1CjNz0JPkGgVAVFOZMZCx7ZbuZqGMDW4A==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/logger@3.3.11':
+    resolution: {integrity: sha512-MHACH/GmbqEqDcQAc4BiGtIOHdhOk9isjleNzMhsfYhlg2M5thsJy9h0MlAumBJ5CxQTLpQeEyBjYecsTYUJkQ==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/math@5.15.17':
+    resolution: {integrity: sha512-TmgzOOZ4whILWPfwHxY42Z8OSAnibXVMVY5YFGk0gEVNFhTRSGF/L04hZCEeD4++r45g/N4IZkmWqcu+WciQjQ==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/random@4.1.54':
+    resolution: {integrity: sha512-h4sUHPlDd1abr78o3jmvFeAKMH97YHAbrcjCcb9YaQiAADLu64NvkR0hCA69kuAJSXCYJZ9k8e0EjmbuEhFuuQ==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/timestamp@1.1.47':
+    resolution: {integrity: sha512-JyLkhJIJm7QWYoHRr/aMYYhl8Y/Qc2hOdO0s5gYVVanPPdlLUhYu5+meySOwCmfRfUs/RTu778oNSC1kBzoZjg==}
+    engines: {node: '>=18'}
+
+  '@thi.ng/transducers@9.7.0':
+    resolution: {integrity: sha512-DRna7U5PcVZZTuORUi8ER8BKlgAbqzBX+FaNUGHC6KR+nc+B5ai9sPOHdSAeS5UyCVKYbSAM+oli3AAgunCRRw==}
+    engines: {node: '>=18'}
+
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
 
@@ -797,6 +902,9 @@ packages:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+
+  fzstd@0.1.1:
+    resolution: {integrity: sha512-dkuVSOKKwh3eas5VkJy1AW1vFpet8TA/fGmVA5krThl8YcOVE/8ZIoEA1+U1vEn5ckxxhLirSdY837azmbaNHA==}
 
   is-reference@3.0.3:
     resolution: {integrity: sha512-ixkJoqQvAP88E6wLydLGGqCJsrFUnqoH6HnaczB8XmDH1oaWU+xxdptvikTgaEhtZ53Ky6YXiBuUI2WXLMCwjw==}
@@ -1200,6 +1308,8 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
+  '@msgpack/msgpack@3.1.3': {}
+
   '@oxc-project/types@0.150.0': {}
 
   '@oxfmt/binding-android-arm-eabi@0.65.0':
@@ -1378,6 +1488,79 @@ snapshots:
       vite: 8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(yaml@2.9.0)
       vitefu: 1.1.3(vite@8.3.0(@types/node@22.20.3)(esbuild@0.28.2)(yaml@2.9.0))
 
+  '@thi.ng/api@8.12.28': {}
+
+  '@thi.ng/arrays@2.14.26':
+    dependencies:
+      '@thi.ng/api': 8.12.28
+      '@thi.ng/checks': 3.11.1
+      '@thi.ng/compare': 2.5.16
+      '@thi.ng/equiv': 2.1.117
+      '@thi.ng/errors': 2.6.17
+      '@thi.ng/random': 4.1.54
+
+  '@thi.ng/buffers@1.0.47':
+    dependencies:
+      '@thi.ng/api': 8.12.28
+      '@thi.ng/errors': 2.6.17
+
+  '@thi.ng/checks@3.11.1': {}
+
+  '@thi.ng/compare@2.5.16':
+    dependencies:
+      '@thi.ng/api': 8.12.28
+
+  '@thi.ng/compose@3.0.65':
+    dependencies:
+      '@thi.ng/api': 8.12.28
+      '@thi.ng/errors': 2.6.17
+
+  '@thi.ng/equiv@2.1.117': {}
+
+  '@thi.ng/errors@2.6.17': {}
+
+  '@thi.ng/fibers@1.1.2':
+    dependencies:
+      '@thi.ng/api': 8.12.28
+      '@thi.ng/arrays': 2.14.26
+      '@thi.ng/buffers': 1.0.47
+      '@thi.ng/checks': 3.11.1
+      '@thi.ng/errors': 2.6.17
+      '@thi.ng/idgen': 2.2.102
+      '@thi.ng/logger': 3.3.11
+      '@thi.ng/random': 4.1.54
+      '@thi.ng/timestamp': 1.1.47
+
+  '@thi.ng/idgen@2.2.102':
+    dependencies:
+      '@thi.ng/api': 8.12.28
+      '@thi.ng/errors': 2.6.17
+
+  '@thi.ng/logger@3.3.11': {}
+
+  '@thi.ng/math@5.15.17':
+    dependencies:
+      '@thi.ng/api': 8.12.28
+
+  '@thi.ng/random@4.1.54':
+    dependencies:
+      '@thi.ng/api': 8.12.28
+      '@thi.ng/errors': 2.6.17
+
+  '@thi.ng/timestamp@1.1.47': {}
+
+  '@thi.ng/transducers@9.7.0':
+    dependencies:
+      '@thi.ng/api': 8.12.28
+      '@thi.ng/arrays': 2.14.26
+      '@thi.ng/checks': 3.11.1
+      '@thi.ng/compare': 2.5.16
+      '@thi.ng/compose': 3.0.65
+      '@thi.ng/errors': 2.6.17
+      '@thi.ng/math': 5.15.17
+      '@thi.ng/random': 4.1.54
+      '@thi.ng/timestamp': 1.1.47
+
   '@types/chai@5.2.3':
     dependencies:
       '@types/deep-eql': 4.0.2
@@ -1534,6 +1717,8 @@ snapshots:
 
   fsevents@2.3.3:
     optional: true
+
+  fzstd@0.1.1: {}
 
   is-reference@3.0.3:
     dependencies:

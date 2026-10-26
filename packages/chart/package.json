@@ -1,0 +1,28 @@
+{
+  "name": "@local/chart",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./dist/hm-chart.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "check:types": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@local/hydromancer": "workspace:*",
+    "@sveltejs/vite-plugin-svelte": "^7.3.0",
+    "@thi.ng/fibers": "^1.1.2",
+    "@thi.ng/math": "^5.15.17",
+    "@thi.ng/transducers": "^9.7.0",
+    "svelte": "^5.57.0",
+    "svelte-check": "^4.7.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}

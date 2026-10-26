@@ -3,10 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>svelte-oxc-template</title>
+    <title>hm-chart example</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: system-ui, sans-serif;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      hm-chart {
+        /* dvh tracks the visible viewport as mobile browser bars show and hide. */
+        height: 100vh;
+        height: 100dvh;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <!--
+      Embedding: load the module once, then use the element anywhere.
+      base-url points at the dev/preview proxy in vite.config.ts, which adds HYDROMANCER_API_KEY
+      server-side, so the key never reaches the page.
+    -->
+    <hm-chart coin="BTC" interval="1m" base-url="/hydromancer"></hm-chart>
+    <script type="module">
+      import '@local/chart'
+    </script>
   </body>
 </html>
